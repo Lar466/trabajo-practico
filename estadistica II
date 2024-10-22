@@ -1,0 +1,72 @@
+# "Trabajo prácico Estadistica II"
+## Subtitulo: Educación y pobreza. Tópicos en disputa.
+### Autores: *Goggi Dolores* (45295589), *García Lara* (44897819).
+### Fecha: 13/07/2024.
+
+Nuestro trabajo plantea el análisis de dos variables que pueden relacionarse en el contexto actual: educación y pobreza. A partir de ello intentamos observar que problemática es mas relevante para la ciudadanía donde ambas variables son un punto clave de opinión publica en estos momentos.
+
+Para realizar este análisis tuvimos en cuenta la media, la desviación estandar, el valor de la muestra seleccionada a partir de una encuesta de forma aleatoria. Por otro lado, a partir de los datos obtenidos construímos los intervalos de confianza correspondientes a cada variable.
+
+```{r, warning=FALSE, echo=FALSE,message=FALSE}
+# install.packages("googlesheets4")
+library(googlesheets4)
+datos <- read_sheet('https://docs.google.com/spreadsheets/d/1FW4EtmIWLB5bo0mXUDiOGJeI9g6uCTxEM00clT2V9ug/edit?usp=sharing')
+```
+```{r}
+mean(datos$problemas_educacion)
+sd(datos$problemas_educacion)
+nrow(datos)
+```
+```{r, warning=FALSE, echo=FALSE,message=FALSE}
+# install.packages("gmodels")
+library(gmodels)
+```
+```{r}
+ci(datos$problemas_educacion, confidence=0.95)
+```
+
+
+En este primer caso, obtuvimos una media de 8.571892 que se corresponde con el promedio de la población que respondió al interrogante de la variable. En segundo lugar el calculo de la desviación estandar dio como resultado 1.872121 que son los valores que se alejan del promedio. Por último obtuvimos una población total de 925 personas.
+Teniendo en cuenta estos datos, armamos los intervalos de confianza en donde se estima un 95% de confianza de que el intervalo (8.45-8.69) contiene el promedio de la valoración de la educacion.
+```{r}
+mean(datos$problemas_pobreza)
+sd(datos$problemas_pobreza)
+nrow(datos)
+ci(datos$problemas_pobreza, confidende=0.95)
+```
+En este segundo caso, obtuvimos una media de 8.637838 que se corresponde con el promedio de la población que respondió al interrogante de la variable. En segundo lugar el calculo de la desviación estandar dio como resultado 1.745023 que son los valores que se alejan del promedio. Por último obtuvimos una población total de 925 personas.
+Teniendo en cuenta estos datos, armamos los intervalos de confianza en donde se estima un 95% de confianza de que el intervalo (8.52-8.75 contiene el promedio de la valoración de la pobreza.
+```{r}
+hist(datos$problemas_educacion)
+hist(datos$problemas_pobreza)
+```
+A partir de los histogramas denotamos que ambos problemas tienen una amplia relevancia en cuanto a su problematizacion en la esfera publica. Por esto decidimos realizar un calculo del coeficiente de correlacion de pearson para demostrar la relacion entre ambas variables.
+```{r}
+cor(datos$problemas_educacion, datos$problemas_pobreza)
+plot(datos$problemas_educacion, datos$problemas_pobreza)
+```
+
+
+En este punto, a partir de las muestra tomada de la encuesta proporcionada por la materia de "estadistica II" y de los análisis pertinentes pudimos observar una interrelacion contundente entre la problematica tanto en la educacion como en la pobreza en el contexto actual. Por lo que observamos ambos problemas pueden superponerse en cuanto su relevancia en la sociedad, donde uno puede afectar al otro y viceversa.Para ilustrar esta relacion construimos un diagrama de dispersion que evidencia una relacion directa y fuerte entre ambas variables.
+
+```{r}
+ci(datos$problemas_educacion, confidence=0.99)
+```
+En el primer caso, hay un 99% de confianza de que el intervalo (8.41-8.73) contiene el promedio de respuestas de  sobre la educación en cuanto problema.
+
+```{r}
+ci(datos$problemas_pobreza, confidence=0.99)
+```
+En este segundo caso, estimamos un 99% de confianza de que el intervalo (8.48- 8.78) contiene el promedio de respuestas sobre la pobreza como problema.
+
+Ya que armamos intervalos de confianza de 95% para evaluar cada variable y visualizar la contencion de la media muestral representativa del promedio de ciudadanos que participaron en la encuesta de opinion sobre los problemas de educacion y pobreza, decidimos construir intervalos de confianza de 99% para evaluar que sucede cuando elevamos la confianza. 
+
+A partir de los resultados obtenidos podemos visualizar que en la variable sobre "problemas de pobreza" el intervalo acrecienta la distancia entre sus limites inferior y superior siendo estos de 8.48 y 8.78. Mientras que, cuando sostenemos una confianza de 95% el intervalo se expresa en su limite inferior como 8.52 y superior en 8.75. 
+En el caso de la variable "problemas de educación" sucede lo mismo, en la confianza estimada de 99% la media estimada se encuentra contenido en el parametro 8.41 y 8.73, mientras que si sostenemos la confianza en 95% estos limites se achican y se sostienen en 8.45 limite inferior y 8.69 limite superior. 
+Esta transformación del intervalo indica en primer lugar que si bien en ambos casos se decide aumentar el nivel de confianza en el intervalo para saber la posibilidad de que el intervalo contenga la media estimada, a su vez se sacrifica la precision del intervalo cuando este tiene menor distancia entre sus limites. Este ensanchamiento provoca menor precisión al momento de estimar la distancia de la media con respecto a cada limite del parametro. Por lo que se puede determinar en este caso, que cuando la confianza se eleva al 99% la estimación con respecto a la media pierde su precisión.
+
+Como parte de la reflexión personal nos parece propicio analizar estas variables en particular dado a los planteos actuales, tanto de políticos como de ciudadanos acerca de la brecha de desigualdad socioeconómica existente en el acceso a los distintos niveles educativos. Esta situación propicia que, aquellos que provienen de un estrato socioeconómico menor tengan dificultades, según lo expresado en discursos, en cuanto al acceso, permanencia y egreso de los jovenes en la educación obligatoria lo que conlleva a pensar que su desarollo futuro no será el mas propicio dado a los obstáculos económicos que genera que muchos de ellos o no puedan ingresar o egresarse de la universidad, acentuando consecuentemente la desigualdad de acceso de este grupo social a lo largo de su vida. De esta forma, podemos pensar en una conjunción de ambas variables, sin acceso a la educación los jovenes no tienen un futuro próspero en cuanto desarrollo profesional y laboral. Mientras que al mismo tiempo, la economía propia de cada hogar que determina su permanencia a un estrato social determinado hace que los jovenes no puedan sostener o acceder a la educación en sus diferentes esferas.
+
+
+
+
